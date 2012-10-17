@@ -1,10 +1,8 @@
-#/postgresql.conf.
+#
 # Cookbook Name:: postgresql
 # Recipe:: server
 #
-# Author:: Joshua Timberman (<joshua@opscode.com>)
-# Author:: Lamont Granquist (<lamont@opscode.com>)
-# Copyright 2009-2011, Opscode, Inc.
+# Copyright 2010, Chris Fordham.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,48 +17,34 @@
 # limitations under the License.
 #
 
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+include_recipe "postgresql::client" 
 
-include_recipe "postgresql::client"
+package "postgresql"
 
-# randomly generate postgres password
-node.set_unless[:postgresql][:password][:postgres] = secure_password
-node.save unless Chef::Config[:solo]
-
-case node[:postgresql][:version]
-when "8.3"
-  node.default[:postgresql][:ssl] = "off"
-when "8.4"
-  node.default[:postgresql][:ssl] = "true"
-end
-
-# Include the right "family" recipe for installing the server
-# since they do things slightly differently.
 case node.platform
-when "redhat", "centos", "fedora", "suse", "scientific", "amazon"
-  include_recipe "postgresql::server_redhat"
-when "debian", "ubuntu"
-  include_recipe "postgresql::server_debian"
+when "redhat","centos","fedora","suse"
+  package "postgresql-server"
 end
 
-template "#{node[:postgresql][:dir]}/pg_hba.conf" do
-  source "pg_hba.conf.erb"
-  owner "postgres"
-  group "postgres"
-  mode 0600
-  notifies :reload, resources(:service => "postgresql"), :immediately
+service "postgresql" do
+  case node[:platform]
+  when "debian","ubuntu"
+    service_name "postgresql-#{node[:postgresql][:version]}"
+  end
+  supports :restart => true, :status => true, :reload => true
+  action :nothing
 end
 
-# Default PostgreSQL install has 'ident' checking on unix user 'postgres'
-# and 'md5' password checking with connections from 'localhost'. This script
-# runs as user 'postgres', so we can execute the 'role' and 'database' resources
-# as 'root' later on, passing the below credentials in the PG client.
-bash "assign-postgres-password" do
-  user 'postgres'
-  code <<-EOH
-echo "ALTER ROLE postgres ENCRYPTED PASSWORD '#{node[:postgresql][:password][:postgres]}';" | psql
-  EOH
-  not_if "echo '\connect' | PGPASSWORD=#{node['postgresql']['password']['postgres']} psql --username=postgres --no-password -h localhost"
-  not_if { defined?(RightScale) }   # RightScale bug! user is not currently supported by this version of RightLink
-  action :run
+case node[:platform]
+when "debian","ubuntu"
+  script "install_something" do
+    interpreter "bash"
+    user "root"
+    cwd "/tmp"
+    code <<-EOH
+    echo 'Installing ssl-cert package and Debian workaround for bug...'
+    touch /etc/ssl/private/ssl-cert-snakeoil.key && apt-get install -y ssl-cert && make-ssl-cert generate-default-snakeoil
+    EOH
+  end
 end
+
