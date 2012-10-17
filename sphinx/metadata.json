@@ -1,7 +1,7 @@
 {
   "version": "0.4.0",
   "recipes": {
-    "sphinx"
+    "sphinx": "Install Sphinx"
   },
   "groupings": {
   },
