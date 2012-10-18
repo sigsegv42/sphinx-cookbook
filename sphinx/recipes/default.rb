@@ -43,3 +43,10 @@ directory "#{node['sphinx']['install_path']}/conf.d" do
   group node[:sphinx][:group]
   mode '0755'
 end
+
+template "/etc/init.d/searchd" do
+  source "searchd.erb"
+  mode '0775'
+  owner 'root'
+  group 'root'
+end
