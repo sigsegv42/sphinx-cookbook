@@ -1,7 +1,8 @@
 {
   "version": "0.4.0",
   "recipes": {
-    "sphinx::default": "Install Sphinx"
+    "sphinx::default": "Install Sphinx",
+    "sphinx::do_restart": "Runs service searchd restart"
   },
   "groupings": {
   },
