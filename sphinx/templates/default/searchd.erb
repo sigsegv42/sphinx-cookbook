@@ -19,7 +19,7 @@
 
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/local/sphinx/bin/searchd
+DAEMON=<%= @install_path %>/bin/searchd
 NAME=sphinxsearch
 DESC=sphinxsearch
 
@@ -31,11 +31,6 @@ DODTIME=1                   # Time to wait for the server to die, in seconds
                             # If this value is set too low you might not
                             # let some servers to die gracefully and
                             # 'restart' will not work
-
-# Include sphinxsearch defaults if available
-if [ -f /etc/default/sphinxsearch ] ; then
-    . /etc/default/sphinxsearch
-fi
 
 if [ "$START" != "yes" ]; then
   echo "To enable $NAME, edit /etc/default/sphinxsearch and set START=yes"
@@ -94,13 +89,6 @@ force_stop() {
 case "$1" in
   start)
         echo -n "Starting $DESC: "
-
-        # Check if we have the configuration file
-        if [ ! -f /etc/sphinxsearch/sphinx.conf ]; then
-            echo "Please create an /etc/sphinxsearch/sphinx.conf configuration file."
-            echo "Templates are in the /etc/sphinxsearch/ directory."
-            exit 0
-        fi
 
         start-stop-daemon --start --exec ${DAEMON}
         if running ; then
