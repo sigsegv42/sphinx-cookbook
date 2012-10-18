@@ -1,7 +1,7 @@
 {
   "version": "0.4.0",
   "recipes": {
-    "sphinx": "Install Sphinx"
+    "sphinx::default": "Install Sphinx"
   },
   "groupings": {
   },
