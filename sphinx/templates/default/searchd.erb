@@ -32,12 +32,6 @@ DODTIME=1                   # Time to wait for the server to die, in seconds
                             # let some servers to die gracefully and
                             # 'restart' will not work
 
-if [ "$START" != "yes" ]; then
-  echo "To enable $NAME, edit /etc/default/sphinxsearch and set START=yes"
-  exit 0
-fi
-
-
 set -e
 
 running_pid()
