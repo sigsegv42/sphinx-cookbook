@@ -50,3 +50,22 @@ template "/etc/init.d/searchd" do
   owner 'root'
   group 'root'
 end
+
+service "searchd" do
+  case node['platform']
+  when "debian","ubuntu"
+    service_name "searchd"
+    restart_command "/usr/sbin/invoke-rc.d searchd restart && sleep 1"
+    reload_command "/usr/sbin/invoke-rc.d searchd reload && sleep 1"
+  end
+  supports value_for_platform(
+    "debian" => { "4.0" => [ :restart, :reload ], "default" => [ :restart, :reload, :status ] },
+    "ubuntu" => { "default" => [ :restart, :reload, :status ] },
+    "default" => { "default" => [:restart, :reload ] }
+  )
+  action :enable
+end
+
+service "searchd" do
+  action :start
+end
