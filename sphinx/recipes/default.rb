@@ -42,7 +42,6 @@ directory "#{node['sphinx']['install_path']}/conf.d" do
   owner node[:sphinx][:user]
   group node[:sphinx][:group]
   mode '0755'
-  variables :install_path => node['sphinx']['install_path']
 end
 
 template "/etc/init.d/searchd" do
