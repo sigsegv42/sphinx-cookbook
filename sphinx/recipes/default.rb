@@ -30,7 +30,7 @@ directory node['sphinx']['install_path'] do
   recursive true
 end
 
-template "#{node['sphinx']['install_path']}/sphinx.conf" do
+template "#{node['sphinx']['install_path']}/etc/sphinx.conf" do
   source "sphinx.conf.erb"
   owner node[:sphinx][:user]
   group node[:sphinx][:group]
