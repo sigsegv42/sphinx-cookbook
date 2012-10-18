@@ -49,6 +49,7 @@ template "/etc/init.d/searchd" do
   mode '0775'
   owner 'root'
   group 'root'
+  variables :install_path => node['sphinx']['install_path']
 end
 
 service "searchd" do
