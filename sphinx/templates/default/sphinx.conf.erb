@@ -14,7 +14,7 @@ do
     if [ ${include##*.} == "sh" ] ; then
         . <%= @install_path %>/conf.d/$include
     elif [ ${include##*.} == "txt" ] ; then
-        cat <%= @install_path %>/conf.d/$include
+        cat $include
     else
         <%= @install_path %>/conf.d/$include
     fi
