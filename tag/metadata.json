@@ -1,0 +1,31 @@
+{
+  "version": "0.0.1",
+  "recipes": {
+    "tag::appserver": "Tag a server as an appserver"
+  },
+  "groupings": {
+  },
+  "recommendations": {
+  },
+  "long_description": "= DESCRIPTION:\nServer Tagging helper\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\ne\n\n",
+  "attributes": {
+  },
+  "suggestions": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0"
+  },
+  "conflicting": {
+  },
+  "license": "Apache 2.0",
+  "providing": {
+  },
+  "maintainer": "Joshua Farr",
+  "name": "tag",
+  "replacing": {
+  },
+  "platforms": {
+  },
+  "maintainer_email": "j.wgasa@gmail.com",
+  "description": "Configures server tags."
+}
