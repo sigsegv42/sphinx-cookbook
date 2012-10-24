@@ -52,6 +52,7 @@ template "/etc/init.d/searchd" do
   variables :install_path => node['sphinx']['install_path']
 end
 
+
 service "searchd" do
   case node['platform']
   when "debian","ubuntu"
