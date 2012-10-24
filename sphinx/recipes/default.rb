@@ -68,6 +68,6 @@ service "searchd" do
   action :enable
 end
 
-service "searchd" do
-  action :start
-end
+#service "searchd" do
+#  action :start
+#end
