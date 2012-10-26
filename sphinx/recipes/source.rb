@@ -29,7 +29,7 @@ end
 
 execute "Extract Sphinx source" do
   cwd "/tmp"
-  command "tar -zxvf #{sphinx_tar}"
+  command "tar -zxf #{sphinx_tar}"
   not_if { ::File.exists?(sphinx_path) }
 end
 
